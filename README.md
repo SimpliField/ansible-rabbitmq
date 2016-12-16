@@ -12,7 +12,7 @@ Role Variables
 --------------
 
 ```yaml
-rabbitmq_vhost:
+rabbitmq_vhosts:
 - name:    vhost1
   node:    node_name # Optional, defaults to "rabbit"
   tracing: yes # Optional, defaults to "no"
