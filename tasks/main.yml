@@ -60,3 +60,7 @@
     state={{ item.state | default('present') }}
     force={{ item.force | default('yes') }}
   with_items: "{{ rabbitmq_users }}"
+
+- include: erlang-cookie.yml
+  when: (rabbitmq_erlang_cookie is defined)
+    and (rabbitmq_erlang_cookie is not none)

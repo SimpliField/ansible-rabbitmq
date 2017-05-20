@@ -31,6 +31,8 @@ rabbitmq_users:
   force: no
   tags: # Optional, user tags
   - administrator
+rabbitmq_erlang_cookie: mycustomcookie
+rabbitmq_erlang_cookie_path: "/var/lib/rabbitmq/.erlang.cookie"
 ```
 
 Dependencies

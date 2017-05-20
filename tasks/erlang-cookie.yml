@@ -1,0 +1,36 @@
+---
+- name: check erlang cookie
+  shell: grep "{{ rabbitmq_erlang_cookie }}" "{{ rabbitmq_erlang_cookie_path }}" || true
+  changed_when: false
+  ignore_errors: true
+  register: rabbitmq_erlang_cookie_status
+
+- name: stopping rabbitmq app
+  command: rabbitmqctl stop_app
+  when: rabbitmq_erlang_cookie_status.stdout == ""
+
+- name: resetting rabbitmq app
+  command: rabbitmqctl reset
+  when: rabbitmq_erlang_cookie_status.stdout == ""
+
+- name: stopping rabbitmq-server
+  service:
+    name: rabbitmq-server
+    state: stopped
+  when: rabbitmq_erlang_cookie_status.stdout == ""
+
+- name: setup erlang cookie
+  copy:
+    dest: "{{ rabbitmq_erlang_cookie_path }}"
+    backup: yes
+    content: "{{ rabbitmq_erlang_cookie }}"
+
+- name: restarting rabbitmq-server
+  service:
+    name: rabbitmq-server
+    state: restarted
+  when: rabbitmq_erlang_cookie_status.stdout == ""
+
+- name: start rabbitmq app
+  command: rabbitmqctl start_app
+  when: rabbitmq_erlang_cookie_status.stdout == ""
