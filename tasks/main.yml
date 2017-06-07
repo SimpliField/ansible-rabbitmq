@@ -7,37 +7,51 @@
   with_items:
     - apt-transport-https
     - python-pycurl
+  tags:
+  - rabbitmq
 
 - name: add the official rabbitmq repository's key
   apt_key:
     url: "https://www.rabbitmq.com/rabbitmq-release-signing-key.asc"
     state: present
+  tags:
+  - rabbitmq
 
 - name: add rabbitmq repository
   apt_repository:
     repo: "deb http://www.rabbitmq.com/debian/ testing main"
     state: present
   register: rabbitmq_added
+  tags:
+  - rabbitmq
 
 - name: apt update cache
   apt:
     update_cache: yes
   when: rabbitmq_added.changed
+  tags:
+  - rabbitmq
 
 - name: install rabbitmq
   apt:
     pkg: rabbitmq-server
     state: present
+  tags:
+  - rabbitmq
 
 - name: enable rabbitmq service
   service:
     name: rabbitmq-server
     enabled: yes
+  tags:
+  - rabbitmq
 
 - name: enable the rabbitmq_management plugin
   rabbitmq_plugin:
     names: rabbitmq_management
     state: enabled
+  tags:
+  - rabbitmq
 
 - name: add rabbitmq vhosts
   rabbitmq_vhost:
@@ -46,6 +60,8 @@
     tracing={{ item.tracing | default('no') }}
     state={{ item.state | default('present') }}
   with_items: "{{ rabbitmq_vhosts }}"
+  tags:
+  - rabbitmq
 
 - name: add rabbitmq users
   rabbitmq_user:
@@ -60,7 +76,11 @@
     state={{ item.state | default('present') }}
     force={{ item.force | default('yes') }}
   with_items: "{{ rabbitmq_users }}"
+  tags:
+  - rabbitmq
 
 - include: erlang-cookie.yml
   when: (rabbitmq_erlang_cookie is defined)
     and (rabbitmq_erlang_cookie is not none)
+  tags:
+  - rabbitmq
