@@ -16,4 +16,10 @@ galaxy_info:
     - rabbitmq
     - amqp
     - rabbit
-dependencies: []
+dependencies:
+  - role: SimpliField.packages
+    packages:
+    - apt-transport-https
+    - python-pycurl
+    tags:
+    - rabbitmq

@@ -38,7 +38,8 @@ rabbitmq_erlang_cookie_path: "/var/lib/rabbitmq/.erlang.cookie"
 Dependencies
 ------------
 
-There is no dependency
+This role use :
+- [SimpliField.packages](https://github.com/SimpliField/ansible-packages).
 
 Example Playbook
 ----------------

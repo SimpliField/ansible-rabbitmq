@@ -1,15 +1,4 @@
 ---
-- name: install apt-transport-https
-  apt:
-    pkg: "{{item}}"
-    update-cache: yes
-    cache_valid_time: 86400
-  with_items:
-    - apt-transport-https
-    - python-pycurl
-  tags:
-  - rabbitmq
-
 - name: add the official rabbitmq repository's key
   apt_key:
     url: "https://www.rabbitmq.com/rabbitmq-release-signing-key.asc"
