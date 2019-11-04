@@ -68,6 +68,16 @@
   tags:
   - rabbitmq
 
+- name: create main rabbitmq conf file
+  template:
+    src: rabbitmq.conf
+    dest: "{{ rabbitmq_conf_path }}"
+    owner: "rabbitmq"
+    group: "rabbitmq"
+  notify: restart rabbitmq
+  tags:
+  - rabbitmq
+  
 - include: erlang-cookie.yml
   when: (rabbitmq_erlang_cookie is defined)
     and (rabbitmq_erlang_cookie is not none)
