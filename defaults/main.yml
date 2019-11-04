@@ -1,5 +1,18 @@
 ---
 rabbitmq_vhosts: []
-rabbitmq_users: []
+rabbitmq_users:
+  - user: datadog
+    password: WwuaGKaqbvviqeGKwoPqxwJqJGh7iozezFBneioB
+    permissions:
+      - vhost: /
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+    tags: 
+      - monitoring
+    state: present
+rabbitmq_conf_path: /etc/rabbitmq/rabbitmq.conf
+rabbitmq_log_dir: /var/log/rabbit
+rabbitmq_log_file: rabbitmq.log
 rabbitmq_erlang_cookie:
 rabbitmq_erlang_cookie_path: "/var/lib/rabbitmq/.erlang.cookie"
